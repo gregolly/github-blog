@@ -1,15 +1,15 @@
 import { ContainerSearch } from './styles'
 
-interface PublishesApi {
-  publishes: []
+export interface IssueProps {
+  issues: Record<string, any> // usei esse tipo generico, mas o ideal seria vc mapear os campos do objeto retornado na api do git
 }
 
-export function InputSearch(publishes: PublishesApi) {
+export function InputSearch(props: IssueProps) {
   return (
     <ContainerSearch>
       <div id="wrapper">
         <span>Publicações</span>
-        <span>{publishes.publishes.length} publicações</span>
+        <span>{props.issues.length} publicações</span>
       </div>
       <input
         type="text"
