@@ -1,34 +1,31 @@
 import { CardContainer, CardWrapper } from './styles'
 import { NavLink } from 'react-router-dom'
-import { useState } from 'react'
 
-interface PublishesItems {
-  id: string
+interface PropsIssues {
+  id: number
   title: string
   created_at: string
   body: string
-  publishes: []
 }
 
-export function CardIssue(publishes: PublishesItems) {
-  const [items, setItems] = useState<PublishesItems[]>([])
+interface IssuesProps {
+  issues: PropsIssues[]
+}
 
-  setItems(publishes.publishes)
-  // console.log(publishes.publishes)
-
+export function CardIssue({ issues }: IssuesProps) {
   return (
     <CardContainer>
-      <CardWrapper>
-        {items.map((publish) => (
-          <NavLink to="/content" key={publish.id}>
+      {issues.map((publish) => (
+        <CardWrapper key={publish.id}>
+          <NavLink to="/content">
             <div className="wrapper">
-              <h2>{publish.title}</h2>
+              <h2>{publish.title.slice(0, 50)}</h2>
               <span>{publish.created_at}</span>
             </div>
-            <p>{publish.body}</p>
+            <p>{publish.body.slice(0, 100)}</p>
           </NavLink>
-        ))}
-      </CardWrapper>
+        </CardWrapper>
+      ))}
     </CardContainer>
   )
 }

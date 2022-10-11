@@ -20,11 +20,11 @@ export function Content() {
     const apiData = response.data.items
     setIssuesData(apiData)
   }
-  console.log(issues)
+
   return (
     <ContentContainer>
-      <InputSearch publishes={issues} />
-      <CardIssue publishes={issues} />
+      <InputSearch issues={issues} />
+      <CardIssue issues={issues} />
     </ContentContainer>
   )
 }

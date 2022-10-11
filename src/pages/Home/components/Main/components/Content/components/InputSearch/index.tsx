@@ -1,15 +1,15 @@
 import { ContainerSearch } from './styles'
 
-interface PublishesApi {
-  publishes: []
+interface ArrayIssues {
+  issues: unknown[]
 }
 
-export function InputSearch(publishes: PublishesApi) {
+export function InputSearch({ issues }: ArrayIssues) {
   return (
     <ContainerSearch>
       <div id="wrapper">
         <span>Publicações</span>
-        <span>{publishes.publishes.length} publicações</span>
+        <span>{issues.length} publicações</span>
       </div>
       <input
         type="text"
