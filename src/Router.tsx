@@ -6,7 +6,9 @@ export function Router() {
   return (
     <Routes>
       <Route element={<Home />} path="/" />
-      <Route element={<InnerContent />} path="/content" />
+      <Route path="/content">
+        <Route path=":issuesid" element={<InnerContent />} />
+      </Route>
     </Routes>
   )
 }

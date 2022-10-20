@@ -1,3 +1,4 @@
+import { useEffect, useState, useCallback } from 'react'
 import {
   BodyContentContainer,
   ContainerInnerContent,
@@ -5,40 +6,55 @@ import {
   InfoContent,
 } from './styles'
 
-import { NavLink } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
+import axios from 'axios'
+
+interface PropsContent {
+  content: {
+    html_url: string
+    title: string
+    author_association: string
+    created_at: Date
+    comments: string
+    body: string
+  }[]
+}
 
 export function InnerContent() {
+  const { issuesid } = useParams()
+  const [content, setContent] = useState<PropsContent[]>([])
+
+  const getIssuesByID = useCallback(async () => {
+    const response = await axios.get(
+      `https://api.github.com/repos/gregolly/github-blog/issues/${issuesid}`,
+    )
+
+    const issuesForID = response.data
+
+    setContent(issuesForID)
+  }, [issuesid])
+
+  useEffect(() => {
+    getIssuesByID()
+  }, [getIssuesByID])
+
   return (
     <ContainerInnerContent>
       <HeaderContentInner>
         <InfoContent>
           <NavLink to="/">Voltar</NavLink>
-          <NavLink to="">Ver no github</NavLink>
-          <h2>JavaScript data types and data structures</h2>
+          <NavLink to={content.html_url}>Ver no github</NavLink>
+          <h2>{content.title}</h2>
           <ul>
-            <li>cameronwll</li>
-            <li>Há 1 dia</li>
-            <li>5 comentários</li>
+            <li>{content.author_association}</li>
+            <li>{content.created_at}</li>
+            <li>{content.comments} comentários</li>
           </ul>
         </InfoContent>
       </HeaderContentInner>
 
       <BodyContentContainer>
-        <p>
-          Programming languages all have built-in data structures, but these
-          often differ from one language to another. This article attempts to
-          list the built-in data structures available in JavaScript and what
-          properties they have. These can be used to build other data
-          structures. Wherever possible, comparisons with other languages are
-          drawn. Dynamic typing JavaScript is a loosely typed and dynamic
-          language. Variables in JavaScript are not directly associated with any
-          particular value type, and any variable can be assigned (and
-          re-assigned) values of all types:
-        </p>
-        <pre>
-          let foo = 42; // foo is now a number foo = ‘bar’; // foo is now a
-          string foo = true; // foo is now a boolean
-        </pre>
+        <p>{content.body}</p>
       </BodyContentContainer>
     </ContainerInnerContent>
   )
