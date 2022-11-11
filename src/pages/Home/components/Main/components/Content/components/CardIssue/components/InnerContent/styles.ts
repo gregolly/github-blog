@@ -90,4 +90,10 @@ export const BodyContentContainer = styled.div`
   height: 100vh;
   background: #071422;
   color: ${(props) => props.theme['base-text']};
+
+  p {
+    padding-top: 200px;
+    margin: 0 auto;
+    max-width: 800px;
+  }
 `
