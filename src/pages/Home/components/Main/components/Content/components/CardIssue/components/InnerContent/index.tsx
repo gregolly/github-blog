@@ -16,10 +16,14 @@ import {
 import { NavLink, useParams } from 'react-router-dom'
 import axios from 'axios'
 
+interface UserProps {
+  login: string
+}
+
 interface PropsInnerContent {
   html_url: string
   title: string
-  author_association: string
+  user: UserProps
   created_at: string
   comments: string
   body: string
@@ -33,6 +37,8 @@ export function InnerContent() {
     const response = await axios.get<PropsInnerContent>(
       `https://api.github.com/repos/gregolly/github-blog/issues/${issuesid}`,
     )
+
+    console.log(response.data)
 
     const issuesForID = response.data
 
@@ -62,7 +68,7 @@ export function InnerContent() {
             <ul className="list-info">
               <li>
                 <img src={github} alt="" />
-                {content?.author_association}
+                {content?.user.login}
               </li>
               <li>
                 <img src={calendar} alt="" />
